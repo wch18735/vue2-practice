@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://unpkg.com/vue"></script>
+
+<style>
+	/* tr1 에 공통으로 적용할 효과 */
+	.tr1-enter-active, .tr1-leave-active{
+		transition : all .5s;
+	}
+	
+	/* 나타나기 시작할 때, 사라짐 완료됐을 때 : 안 보이는 때*/
+	.tr1-enter, .tr1-leave-to {
+		opacity : 0;
+	}
+	
+	/* 나타남이 끝났을 때, 사라짐 시작할 때 : 보이는 때*/
+	.tr1-enter-to, .tr1-leave {
+		opacity : 1;
+	}
+	
+	/* bounce 이름의 transition 이 실행되는 중간에 
+	keyframes 단위로 나뉜 bounce-in 효과 
+	단계별 적용 */
+	.bounce-enter-active {
+		animation: bounce-in .5s;
+	}
+	
+	.bounce-leave-active { 
+		animation: bounce-in .5s reverse;
+	}
+	
+	@keyframes bounce-in {
+		0% {
+			transform : scale(0);
+		}
+		50% {
+			transform : scale(1.5);
+		}
+		100% {
+			transform : scale(1);
+		}
+	}
+	
+</style>
+
+<script>
+	window.onload = function(){
+		var vm1 = new Vue({
+			el : '#test1',
+			data: {
+				show1 : true,
+				show2 : true,
+				show3 : true,
+				status : ''
+			},
+			methods : {
+				setShow1 : function(){
+					if(this.show1 == true){
+						this.show1 = false
+					} else {
+						this.show1 = true
+					}
+				},
+				setShow2 : function(){
+					if(this.show2 == true){
+						this.show2 = false
+					} else {
+						this.show2 = true
+					}
+				},
+				setShow3 : function(){
+					if(this.show3 == true){
+						this.show3 = false
+					} else {
+						this.show3 = true
+					}
+				},
+				beforeEnter : function(){
+					this.status = 'before-enter'
+				},
+				enter : function(){
+					this.status = 'entering'
+				},
+				afterEnter : function(){
+					this.status = 'after-enter'
+				},
+				enterCanceled : function(){
+					this.status = 'canceled enter'
+				},
+				beforeLeave : function(){
+					this.status = 'before-leave'
+				},
+				leave : function(){
+					this.status = 'leaving'
+				},
+				afterLeave : function(){
+					this.status = 'after-leave'
+				},
+				leaveCanceled : function(){
+					this.status = 'canceled leave'
+				}
+			}
+		})
+	}
+</script>
+</head>
+<body>
+
+	<div id='test1'>
+		<transition name='tr1'>
+		<h3 v-if='show1'>문자열</h3>
+		</transition>
+		<button type='button' @click='setShow1'>show1</button>
+		<hr/>
+		
+		<transition name='bounce'>
+			<h2 v-if='show2'>
+				문자열! 문자열! 문자열! 문자열! 문자열! 문자열!
+			</h2>
+		</transition>
+		<button type='button' @click='setShow2'>버튼</button>
+		<hr/>
+		
+		<transition name='tr1'
+			@before-enter='beforeEnter'
+			@enter='enter'
+			@after-enter='afterEnter'
+			@enter-canceled='enterCanceled'
+			@before-leave='beforeLeave'
+			@leave='leave'
+			@after-leave='afterLeave'
+			@leave-canceled='leaveCanceled'>
+			<h3 v-if='show3'>문자열</h3>
+		</transition>
+		<button type='button' @click='setShow3'>버튼</button>
+		<h3>status : {{status}}</h3>		
+		
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://unpkg.com/vue"></script>
+<script>
+	window.onload = function(){
+		var vm1 = new Vue({
+			el : '#test1',
+			data : {
+				value1 : 100,
+				counter : 0,
+				result : 0,
+				/* 객체 안에 있는 변수만 감시 등록할 수 있기 때문에 데이터 선언 */
+				obj : {
+				}
+			},
+			methods : {
+				setValue1 : function(){
+					this.value1 = 200
+				},
+				setValue2 : function(){
+					/* 외부에서 세팅한 변수 변환 */
+					this.obj.value2 = 2000
+				},
+				addCounter : function(){
+					this.counter++
+				}
+			}
+		})
+		
+		/* vm1 이라는 Vue 객체 내부 obj 데이터에 value2 라는 이름으로 1000 값을 세팅 */
+		Vue.set(vm1.obj, 'value2', 1000)
+		
+		/* Vue 객체 내부 counter 값이 변화할 때마다 특정 함수를 동작시킬 수 있음 */
+		/* 단순히 화면에 변화를 나타내는 것에서 "특정 동작"을 지정할 수 있다 */
+		vm1.$watch('counter', function(new_value, old_value){
+			this.result = new_value + old_value
+		})
+	}
+	
+</script>
+</head>
+<body>
+
+	<div id='test1'>
+		<!-- data 에 등록된 value1 의 변화는 곧바로 반영 -->
+		<h3>value : {{value1}}</h3>
+		<button type='button' @click='setValue1'>value1</button>
+		<hr/>
+		<!-- data 에 등록되지 않은 value2는 초기 렌더링에 감시하지 않아 변화 감지하지 않음 -->
+		<!-- 그러나 Vue.set() 이용하면 외부에서 Vue 객체에 감시를 설정할 수 있다 -->
+		<h3>value2 : {{obj.value2}}</h3>
+		<button type='button' @click='setValue2'>value2</button>
+		<hr/>
+		<h3>counter : {{counter}}</h3>
+		<h3>result : {{result}}</h3>
+		<button type='button' @click='addCounter'>버튼</button>
+	</div>
+
+</body>
+</html>

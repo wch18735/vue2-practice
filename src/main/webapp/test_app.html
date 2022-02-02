@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://unpkg.com/vue"></script>
+<script>
+	window.onload = function(){
+		var testView = new Vue({
+			el : '#test',
+			data : {
+				message : 'First Vue.js Application',
+				str1 : '문자열1',
+				int1 : 100,
+				float1 : 11.1256,
+				arr1 : [10, 20, 30],
+				obj1 : { a1 : 'a1 문자열', a2 : 'a2 문자열'},
+				name : '홍길동',
+				age : 17
+			},
+			methods : {
+				user_info : function(){
+					return '이름은 ' + this.name + '이고 나이는 ' + this.age
+				}
+			}
+		})
+		}
+</script>
+</head>
+<body>
+	<div id="test">
+		<h1>{{message}}</h1>
+		<h3>{{str1}}</h3>
+		<h3>{{int1}}</h3>
+		<h3>{{float1}}</h3>
+		<h3>{{arr1[0]}}</h3>
+		<h3>{{arr1[1]}}</h3>
+		<h3>{{arr1[2]}}</h3>
+		<h3>{{obj1.a1}}</h3>
+		<h3>{{obj1.a2}}</h3>
+		<h3>{{user_info()}}</h3>
+	</div>
+</body>
+</html>

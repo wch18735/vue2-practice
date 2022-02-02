@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://unpkg.com/vue"></script>
+<script>
+	window.onload = function(){
+		var vm1 = new Vue({
+			el : '#test1',
+			data : {
+				str1 : '문자열',
+				link : 'https://wch18735.github.io',
+				vue_link : 'https://kr.vuejs.org',
+				img_src : './image/logo.png',
+				img_width : '200'
+			},
+			methods : {
+				setImageWidth200 : function(){
+					this.img_width = '200'
+				},
+				setImageWidth300 : function(){
+					this.img_width = '300'
+				}
+			}
+		})
+	}
+</script>
+</head>
+<body>
+
+	<div id='test1'>
+		<h3>{{str1}}</h3>
+		<a v-bind:href='link'>v-bind link setting</a>
+		<a :href='vue_link'>
+			<img alt="" v-bind:src='img_src' :width='img_width' v-on:mouseenter='setImageWidth300' v-on:mouseleave='setImageWidth200'/><br/>
+		</a>
+	</div>
+
+</body>
+</html>
